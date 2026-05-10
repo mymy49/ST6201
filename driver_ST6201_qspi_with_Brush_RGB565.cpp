@@ -104,7 +104,7 @@ void ST6201_qspi_with_Brush_RGB565::sendData(uint8_t *data, uint32_t len)
 	mCsPin.port->setOutput(mCsPin.pin, false);
 	buf = 0x02002C00;
 	mDev->transmit(gCmdForm, buf);
-	mDev->transmit(dataform, data, len);
+	mDev->transmit(dataform, data, len << 1);
 	mCsPin.port->setOutput(mCsPin.pin, true);
 }
 
@@ -120,7 +120,7 @@ void ST6201_qspi_with_Brush_RGB565::sendData(uint16_t *data, uint32_t len)
 	mCsPin.port->setOutput(mCsPin.pin, false);
 	buf = 0x02002C00;
 	mDev->transmit(gCmdForm, buf);
-	mDev->transmit(dataform, data, len);
+	mDev->transmit(dataform, data, len << 1);
 	mCsPin.port->setOutput(mCsPin.pin, true);
 }
 
@@ -136,7 +136,7 @@ void ST6201_qspi_with_Brush_RGB565::sendData(uint32_t *data, uint32_t len)
 	mCsPin.port->setOutput(mCsPin.pin, false);
 	buf = 0x02002C00;
 	mDev->transmit(gCmdForm, buf);
-	mDev->transmit(dataform, data, len);
+	mDev->transmit(dataform, data, len << 1);
 	mCsPin.port->setOutput(mCsPin.pin, true);
 }
 
