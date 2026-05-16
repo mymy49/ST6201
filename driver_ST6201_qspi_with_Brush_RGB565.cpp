@@ -18,14 +18,18 @@ static const Quadspi::specification_t gSpec =
 
 static const Quadspi::dataform_t gCmdForm =
 {
-	Quadspi::BIT_WIDTH_SINGLE,	//bitWidth_t bitWidth;
-	Quadspi::DATA_WIDTH_32BIT	//dataWidth_t dataWidth;
+	Quadspi::BIT_WIDTH_SINGLE,		//bitWidth_t bitWidth;
+	Quadspi::DATA_WIDTH_32BIT,		//dataWidth_t dataWidth;
+	Quadspi::BIT_ORDER_MSB,			//bitOrder_t bitOrder;
+	Quadspi::BYTE_REORDER_DISABLE	//byteReorder_t byteReorder;
 };
 
 static const Quadspi::dataform_t g1ByteForm =
 {
-	Quadspi::BIT_WIDTH_SINGLE,	//bitWidth_t bitWidth;
-	Quadspi::DATA_WIDTH_8BIT	//dataWidth_t dataWidth;
+	Quadspi::BIT_WIDTH_SINGLE,		//bitWidth_t bitWidth;
+	Quadspi::DATA_WIDTH_8BIT,		//dataWidth_t dataWidth;
+	Quadspi::BIT_ORDER_MSB,			//bitOrder_t bitOrder;
+	Quadspi::BYTE_REORDER_DISABLE	//byteReorder_t byteReorder;
 };
 
 ST6201_qspi_with_Brush_RGB565::ST6201_qspi_with_Brush_RGB565(void)
@@ -82,7 +86,9 @@ void ST6201_qspi_with_Brush_RGB565::sendCmd(uint8_t cmd, uint8_t *data, uint32_t
 	Quadspi::dataform_t dataform = 
 	{
 		Quadspi::BIT_WIDTH_SINGLE,
-		Quadspi::DATA_WIDTH_8BIT
+		Quadspi::DATA_WIDTH_8BIT,
+		Quadspi::BIT_ORDER_MSB,			//bitOrder_t bitOrder;
+		Quadspi::BYTE_REORDER_DISABLE	//byteReorder_t byteReorder;
 	};
 
 	mCsPin.port->setOutput(mCsPin.pin, false);
@@ -98,7 +104,9 @@ void ST6201_qspi_with_Brush_RGB565::sendData(uint8_t *data, uint32_t len)
 	Quadspi::dataform_t dataform = 
 	{
 		Quadspi::BIT_WIDTH_SINGLE,
-		Quadspi::DATA_WIDTH_8BIT
+		Quadspi::DATA_WIDTH_8BIT,
+		Quadspi::BIT_ORDER_MSB,			//bitOrder_t bitOrder;
+		Quadspi::BYTE_REORDER_DISABLE	//byteReorder_t byteReorder;
 	};
 
 	mCsPin.port->setOutput(mCsPin.pin, false);
@@ -114,13 +122,15 @@ void ST6201_qspi_with_Brush_RGB565::sendData(uint16_t *data, uint32_t len)
 	Quadspi::dataform_t dataform = 
 	{
 		Quadspi::BIT_WIDTH_SINGLE,
-		Quadspi::DATA_WIDTH_16BIT
+		Quadspi::DATA_WIDTH_16BIT,
+		Quadspi::BIT_ORDER_MSB,			//bitOrder_t bitOrder;
+		Quadspi::BYTE_REORDER_DISABLE	//byteReorder_t byteReorder;
 	};
 
 	mCsPin.port->setOutput(mCsPin.pin, false);
 	buf = 0x02002C00;
 	mDev->transmit(gCmdForm, buf);
-	mDev->transmit(dataform, data, len << 1);
+	mDev->transmit(dataform, data, len);
 	mCsPin.port->setOutput(mCsPin.pin, true);
 }
 
