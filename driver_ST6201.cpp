@@ -8,13 +8,13 @@
 #include <config.h>
 
 #include "ST6201.h"
-#include "TurtleShip/Rectangular.h"
+#include "TurtleShip/Area.h"
 
 ST6201::ST6201(void)
 {
 
 }
-void ST6201::setWindows(Rectangular rect)
+void ST6201::setWindow(Area rect)
 {
 	uint8_t data[4];
 	int32_t buf;

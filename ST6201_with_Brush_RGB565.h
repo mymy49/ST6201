@@ -17,25 +17,29 @@ public :
 	ST6201_with_Brush_RGB565(void);
 
 	// Brush
-	virtual void drawDot(int16_t x, int16_t y); // pure
+	void drawDot(int16_t x, int16_t y) override;
 
-	virtual void blendDot(int16_t x, int16_t y, uint8_t alpha);
+	void blendDot(int16_t x, int16_t y, uint8_t alpha) override;
 
-	virtual void updateLcdSize(void); // pure
+	virtual void updateLcdSize(void);
 
-	virtual void fillRectBase(int16_t x, int16_t y, uint16_t width, uint16_t height, Color color);
+	void fillRectBase(int16_t x, int16_t y, uint16_t width, uint16_t height, Color color) override;
 
 protected :
 	uint32_t mBmpBufferSize;
 
-	void fillDotArray(uint32_t offset, uint32_t count, Color color);
+	void fillDotArray(uint32_t offset, uint32_t count, Color color) override;
 
-	virtual void drawBitmapBase(Size canvasSize, Rectangular targetCanvasArea, Position bitmapPos, const bitmap_t bitmap);
+	void drawBitmapBase(Size canvasSize, Area targetCanvasArea, Position bitmapPos, const bitmap_t bitmap) override;
+
+//	void drawBitmapBase(Position pos, const bitmap_t bitmap) override;
+
+	void drawBitmapBase(Position pos, const bitmap_t bitmap) override;
 
 private :
-	void drawBitmapRgb565(Size canvasSize, Rectangular targetCanvasArea, Position bitmapPos, const bitmap_t bitmap);
+	void drawBitmapRgb565(Size canvasSize, Area targetCanvasArea, Position bitmapPos, const bitmap_t bitmap);
 
-	void drawBitmapArgb1555(Size canvasSize, Rectangular targetCanvasArea, Position bitmapPos, const bitmap_t bitmap);
+	void drawBitmapArgb1555(Size canvasSize, Area targetCanvasArea, Position bitmapPos, const bitmap_t bitmap);
 };
 
 #endif

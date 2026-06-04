@@ -80,7 +80,7 @@ void ST6201_with_Brush_RGB565::fillDotArray(uint32_t offset, uint32_t count, Col
 	disable();
 }
 
-void ST6201_with_Brush_RGB565::drawBitmapBase(Size canvasSize, Rectangular targetCanvasArea, Position bitmapPos, const bitmap_t bitmap)
+void ST6201_with_Brush_RGB565::drawBitmapBase(Size canvasSize, Area targetCanvasArea, Position bitmapPos, const bitmap_t bitmap)
 {
 	switch(bitmap.type)
 	{
@@ -97,12 +97,45 @@ void ST6201_with_Brush_RGB565::drawBitmapBase(Size canvasSize, Rectangular targe
 	}
 }
 
-void ST6201_with_Brush_RGB565::drawBitmapRgb565(Size canvasSize, Rectangular canvasDesArea, Position bitmapPos, const bitmap_t bitmap)
+void ST6201_with_Brush_RGB565::drawBitmapBase(Position pos, const bitmap_t bitmap)
+{
+	if(bitmap.type != BITMAP_TYPE_RGB565)
+		return;
+
+	Area area{pos, {bitmap.width, bitmap.height}};
+	uint16_t *fb = (uint16_t*)bitmap.data;
+
+	setCalculatorSource(area);
+
+	if(isOutsideCanvas())
+	{
+		area = calculateValidArea();
+		int32_t count = area.getSize().getHeight();
+		int32_t width = area.getSize().getWidth();
+		int32_t offset = mSrcOffset;
+		area.setHeight(1);
+	
+		for(int32_t i = 0; i < count; i++)
+		{
+			setWindow(area);
+			sendData(&fb[offset], width);
+			area.addY(1);
+			offset += bitmap.width;
+		}
+	}
+	else 
+	{
+		setWindow(area);
+		sendData(fb, bitmap.width * bitmap.height);
+	}
+}
+
+void ST6201_with_Brush_RGB565::drawBitmapRgb565(Size canvasSize, Area canvasDesArea, Position bitmapPos, const bitmap_t bitmap)
 {
 	if(bitmap.type != BITMAP_TYPE_RGB565 || mFb == nullptr)
 		return;
 	
-	Rectangular bitmapArea = {bitmapPos, {bitmap.width, bitmap.height}};
+	Area bitmapArea = {bitmapPos, {bitmap.width, bitmap.height}};
 	BitmapDrawingCalculator bdc(canvasSize, canvasDesArea, bitmapArea);
 	uint16_t *src;
 	
@@ -128,24 +161,24 @@ void ST6201_with_Brush_RGB565::drawBitmapRgb565(Size canvasSize, Rectangular can
 		mFb->setSize(bdc.getTrimedCanvasDesArea().getSize());
 		mFb->drawBitmap(pos, bitmapCopy); 
 		
-		setWindows(bdc.getTrimedCanvasDesArea());
+		setWindow(bdc.getTrimedCanvasDesArea());
 		sendData((uint16_t*)mFb->getFrameBuffer(), bdc.getTrimedCanvasDesAreaValue());
 	}
 	else
 	{
 		src = (uint16_t*)bitmap.data;
 		src = &src[bdc.getBitmapSrcFrameBufferOffset()];
-		setWindows(canvasDesArea);
+		setWindow(canvasDesArea);
 		sendData((uint16_t*)src, bdc.getTrimedCanvasDesAreaValue());
 	}
 }
 
-void ST6201_with_Brush_RGB565::drawBitmapArgb1555(Size canvasSize, Rectangular canvasDesArea, Position bitmapPos, const bitmap_t bitmap)
+void ST6201_with_Brush_RGB565::drawBitmapArgb1555(Size canvasSize, Area canvasDesArea, Position bitmapPos, const bitmap_t bitmap)
 {
 	if(bitmap.type != BITMAP_TYPE_ARGB1555 || mFb == nullptr)
 		return;
 	
-	Rectangular bitmapArea = {bitmapPos, {bitmap.width, bitmap.height}};
+	Area bitmapArea = {bitmapPos, {bitmap.width, bitmap.height}};
 	BitmapDrawingCalculator bdc(canvasSize, canvasDesArea, bitmapArea);
 	
 	if(bdc.calculate() == false)
@@ -171,7 +204,7 @@ void ST6201_with_Brush_RGB565::drawBitmapArgb1555(Size canvasSize, Rectangular c
 	mFb->clear();
 	mFb->drawBitmap(pos, bitmapCopy); 
 
-	setWindows(bdc.getTrimedCanvasDesArea());
+	setWindow(bdc.getTrimedCanvasDesArea());
 	sendData((uint16_t*)mFb->getFrameBuffer(), bdc.getTrimedCanvasDesAreaValue());
 }
 

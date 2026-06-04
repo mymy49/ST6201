@@ -11,7 +11,7 @@
 #include <yss/instance.h>
 #include "TurtleShip/TftLcdDriver.h"
 
-class Rectangular;
+class Area;
 
 class ST6201 : public TftLcdDriver
 {
@@ -22,7 +22,7 @@ public :
 
 	void setWindows(int16_t x, int16_t y, uint16_t width = 1, uint16_t height = 1);
 
-	void setWindows(Rectangular rect);
+	void setWindow(Area rect);
 
 	virtual void enable(void) = 0;
 
