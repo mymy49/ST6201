@@ -1,5 +1,4 @@
 #include "ST6201_with_Brush_RGB565.h"
-#include <std_ext/malloc.h>
 #include <std_ext/string.h>
 #include "TurtleShip/BitmapDrawingCalculator.h"
 
