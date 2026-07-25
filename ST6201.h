@@ -18,27 +18,27 @@ class ST6201 : public TftLcdDriver
 public :
 	ST6201(void);
 
-	void setDirection(bool xMirror, bool yMirror, bool rotate);
+	void setDirection(bool xMirror, bool yMirror, bool rotate) __attribute__((optimize("-O1")));
 
-	void setWindows(int16_t x, int16_t y, uint16_t width = 1, uint16_t height = 1);
+	void setWindows(int16_t x, int16_t y, uint16_t width = 1, uint16_t height = 1) __attribute__((optimize("-O1")));
 
-	void setWindow(Area rect);
+	void setWindow(Area rect) __attribute__((optimize("-O1")));
 
-	virtual void enable(void) = 0;
+	virtual void enable(void) __attribute__((optimize("-O1"))) = 0;
 
-	virtual void disable(void) = 0;
+	virtual void disable(void) __attribute__((optimize("-O1"))) = 0;
 
-	virtual void sendCmd(uint8_t cmd) = 0;
+	virtual void sendCmd(uint8_t cmd) __attribute__((optimize("-O1"))) = 0;
 
-	virtual void sendCmd(uint8_t cmd, uint8_t data) = 0;
+	virtual void sendCmd(uint8_t cmd, uint8_t data) __attribute__((optimize("-O1"))) = 0;
 
-	virtual void sendCmd(uint8_t cmd, uint8_t *data, uint32_t count) = 0;
+	virtual void sendCmd(uint8_t cmd, uint8_t *data, uint32_t count) __attribute__((optimize("-O1"))) = 0;
 
-	virtual void sendData(uint8_t *data, uint32_t count) = 0;
+	virtual void sendData(uint8_t *data, uint32_t count) __attribute__((optimize("-O1"))) = 0;
 
-	virtual void sendData(uint16_t *data, uint32_t count) = 0;
+	virtual void sendData(uint16_t *data, uint32_t count) __attribute__((optimize("-O1"))) = 0;
 
-	virtual void sendData(uint32_t *data, uint32_t count) = 0;
+	virtual void sendData(uint32_t *data, uint32_t count) __attribute__((optimize("-O1"))) = 0;
 protected :
 	typedef enum
 	{

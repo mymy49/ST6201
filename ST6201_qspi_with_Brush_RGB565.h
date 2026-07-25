@@ -22,13 +22,13 @@ public:
 		pin_t cs;
 	}config_t;
 
-	ST6201_qspi_with_Brush_RGB565(void);
+	ST6201_qspi_with_Brush_RGB565(void) __attribute__((optimize("-O1")));
 
-	virtual error_t initialize(config_t config) = 0;
+	virtual error_t initialize(config_t config) __attribute__((optimize("-O1"))) = 0;
 
-	void setSpiSpecification(const Spi::specification_t &spec);
+	void setSpiSpecification(const Spi::specification_t &spec) __attribute__((optimize("-O1")));
 
-	void reset(void); // virtual 0
+	void reset(void) __attribute__((optimize("-O1"))); // virtual 0
 
   protected:
 	Quadspi *mDev;
@@ -36,25 +36,25 @@ public:
 	pin_t mCsPin;
 	const Spi::specification_t *mSpec;
 
-	void setConfig(const config_t &config);
+	void setConfig(const config_t &config) __attribute__((optimize("-O1")));
 
-	virtual void sendCmd(uint8_t cmd); // pure
+	virtual void sendCmd(uint8_t cmd) override __attribute__((optimize("-O1")));
 
-	virtual void sendCmd(uint8_t cmd, uint8_t data); // pure
+	virtual void sendCmd(uint8_t cmd, uint8_t data) override __attribute__((optimize("-O1")));
 	
-	virtual void sendCmd(uint8_t cmd, uint8_t *data, uint32_t count); // pure
+	virtual void sendCmd(uint8_t cmd, uint8_t *data, uint32_t count) override __attribute__((optimize("-O1")));
 
-	virtual void sendData(uint8_t *data, uint32_t count); // pure
+	virtual void sendData(uint8_t *data, uint32_t count) override __attribute__((optimize("-O1")));
 
-	virtual void sendData(uint16_t *data, uint32_t count); // pure
+	virtual void sendData(uint16_t *data, uint32_t count) override __attribute__((optimize("-O1")));
 
-	virtual void sendData(uint32_t *data, uint32_t count); // pure
+	virtual void sendData(uint32_t *data, uint32_t count) override __attribute__((optimize("-O1")));
 	
-	virtual void enable(void);
+	virtual void enable(void) override __attribute__((optimize("-O1")));
 
-	virtual void disable(void);
+	virtual void disable(void) override __attribute__((optimize("-O1")));
 
-	void read(uint8_t cmd, uint8_t &des);
+	void read(uint8_t cmd, uint8_t &des) __attribute__((optimize("-O1")));
 };
 
 #endif
